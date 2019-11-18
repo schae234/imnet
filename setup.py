@@ -46,10 +46,14 @@ def create_ext_modules():
             break
     return ext_modules
 
-
-
 currdir = os.getcwd()
 
+import numpy
+process_strings_cy = Extension(
+    'imnet.process_strings_cy',
+    sources=["imnet/process_strings_cy.pyx"],
+    include_dirs=[numpy.get_include()]
+)
 
 setup(name="imnet",
       author="Rok Roskar",
@@ -58,7 +62,8 @@ setup(name="imnet",
       url="http://github.com/rokroskar/imnet",
       package_dir={'imnet/': ''},
       packages=['imnet'],
-      ext_modules=create_ext_modules(),
+      #ext_modules=create_ext_modules(),
+      ext_modules = [process_strings_cy],
       scripts=['scripts/imnet-analyze'],
       install_requires=['click', 'findspark',
                         'python-Levenshtein', 'scipy', 'networkx', 'pandas'],
